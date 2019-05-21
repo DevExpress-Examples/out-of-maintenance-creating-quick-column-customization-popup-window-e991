@@ -1,5 +1,4 @@
-Imports Microsoft.VisualBasic
-Imports DevExpress.XtraGrid.Views.Grid
+﻿Imports DevExpress.XtraGrid.Views.Grid
 Imports DevExpress.Utils
 Imports DevExpress.XtraGrid.Views.Grid.ViewInfo
 Imports DevExpress.XtraEditors.Popup
@@ -20,9 +19,13 @@ Namespace DevExpress.XtraGrid.Helpers
 			Shown
 		End Enum
 
+'INSTANT VB NOTE: The field view was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private view_Renamed As GridView
+'INSTANT VB NOTE: The field state was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private state_Renamed As ColumnCustomizationState = ColumnCustomizationState.None
+'INSTANT VB NOTE: The field containerEdit was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private containerEdit_Renamed As GridViewQuickColumnCustomizationContainerEdit
+'INSTANT VB NOTE: The field popupSize was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private popupSize_Renamed As Size = Size.Empty
 
 		Public Sub New(ByVal view As GridView)
@@ -62,22 +65,14 @@ Namespace DevExpress.XtraGrid.Helpers
 		End Property
 
 		Private Sub View_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-			If IsCursorOnColumnButton(e) Then
-				State = ColumnCustomizationState.Pressed
-			Else
-				State = ColumnCustomizationState.None
-			End If
+			State = If(IsCursorOnColumnButton(e), ColumnCustomizationState.Pressed, ColumnCustomizationState.None)
 		End Sub
 
 		Private Sub View_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
 			If State <> ColumnCustomizationState.Pressed Then
 				Return
 			End If
-			If IsCursorOnColumnButton(e) Then
-				State = ColumnCustomizationState.Shown
-			Else
-				State = ColumnCustomizationState.None
-			End If
+			State = If(IsCursorOnColumnButton(e), ColumnCustomizationState.Shown, ColumnCustomizationState.None)
 		End Sub
 		Private Sub View_CustomDrawRowIndicator(ByVal sender As Object, ByVal e As RowIndicatorCustomDrawEventArgs)
 			If e.RowHandle = GridControl.InvalidRowHandle Then
@@ -126,7 +121,7 @@ Namespace DevExpress.XtraGrid.Helpers
 			ContainerEdit.Properties.Buttons.Clear()
 			AddHandler ContainerEdit.Closed, AddressOf OnClosed
 			ContainerEdit.Bounds = GetColumnButtonBounds()
-			If (Not PopupSize.IsEmpty) Then
+			If Not PopupSize.IsEmpty Then
 				ContainerEdit.Properties.PopupStartSize = PopupSize
 			End If
 			ContainerEdit.Parent = View.GridControl
@@ -141,6 +136,7 @@ Namespace DevExpress.XtraGrid.Helpers
 
 	Public Class GridViewQuickColumnCustomizationContainerEdit
 		Inherits BlobBaseEdit
+
 		Private view As GridView
 		Public Sub New(ByVal view As GridView)
 			Me.view = view
@@ -157,7 +153,10 @@ Namespace DevExpress.XtraGrid.Helpers
 	End Class
 	Public Class GridViewQuickColumnCustomizationPopup
 		Inherits BlobBasePopupForm
+
+'INSTANT VB NOTE: The field view was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private view_Renamed As GridView
+'INSTANT VB NOTE: The field checkListBox was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private checkListBox_Renamed As CheckedListBoxControl
 
 		Public Sub New(ByVal ownerEdit As BlobBaseEdit, ByVal view As GridView)
@@ -191,7 +190,7 @@ Namespace DevExpress.XtraGrid.Helpers
 				Return view_Renamed
 			End Get
 		End Property
-		Protected Overrides Overloads Sub Dispose(ByVal disposing As Boolean)
+		Protected Overrides Sub Dispose(ByVal disposing As Boolean)
 			If disposing Then
 				If CheckListBox IsNot Nothing Then
 					Me.checkListBox_Renamed.Dispose()
@@ -244,11 +243,7 @@ Namespace DevExpress.XtraGrid.Helpers
 			Try
 				For Each column As GridColumn In View.Columns
 					If column.OptionsColumn.ShowInCustomizationForm Then
-						If column.Visible Then
-							CheckListBox.Items.Add(column, column.GetTextCaption(),CheckState.Checked, True)
-						Else
-							CheckListBox.Items.Add(column, column.GetTextCaption(),CheckState.Unchecked, True)
-						End If
+						CheckListBox.Items.Add(column, column.GetTextCaption(),If(column.Visible, CheckState.Checked, CheckState.Unchecked), True)
 					End If
 				Next column
 			Finally
