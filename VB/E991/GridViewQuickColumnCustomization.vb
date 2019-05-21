@@ -28,8 +28,9 @@ Namespace DevExpress.XtraGrid.Helpers
 'INSTANT VB NOTE: The field popupSize was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private popupSize_Renamed As Size = Size.Empty
 
-		Public Sub New(ByVal view As GridView)
-			Me.view_Renamed = view
+'INSTANT VB NOTE: The variable view was renamed since Visual Basic does not handle local variables named the same as class members well:
+		Public Sub New(ByVal view_Renamed As GridView)
+			Me.view_Renamed = view_Renamed
 			AddHandler Me.View.CustomDrawRowIndicator, AddressOf View_CustomDrawRowIndicator
 			AddHandler Me.View.MouseDown, AddressOf View_MouseDown
 			AddHandler Me.View.MouseUp, AddressOf View_MouseUp
@@ -159,13 +160,14 @@ Namespace DevExpress.XtraGrid.Helpers
 'INSTANT VB NOTE: The field checkListBox was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private checkListBox_Renamed As CheckedListBoxControl
 
-		Public Sub New(ByVal ownerEdit As BlobBaseEdit, ByVal view As GridView)
+'INSTANT VB NOTE: The variable view was renamed since Visual Basic does not handle local variables named the same as class members well:
+		Public Sub New(ByVal ownerEdit As BlobBaseEdit, ByVal view_Renamed As GridView)
 			MyBase.New(ownerEdit)
-			Me.view_Renamed = view
+			Me.view_Renamed = view_Renamed
 			Me.checkListBox_Renamed = New CheckedListBoxControl()
 			Me.checkListBox_Renamed.BorderStyle = BorderStyles.Simple
 			Me.checkListBox_Renamed.Appearance.Assign(ownerEdit.Properties.AppearanceDropDown)
-			Me.checkListBox_Renamed.LookAndFeel.ParentLookAndFeel = Me.OwnerEdit.LookAndFeel
+			Me.checkListBox_Renamed.LookAndFeel.ParentLookAndFeel = OwnerEdit.LookAndFeel
 			Me.checkListBox_Renamed.Visible = False
 			Me.checkListBox_Renamed.CheckOnClick = True
 			AddHandler checkListBox_Renamed.ItemCheck, AddressOf OnCheckListBoxItemCheck
